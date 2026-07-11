@@ -34,6 +34,8 @@ cuentas ya existentes en la base de datos:
 | POST | `/register` | No | Registra un usuario, devuelve JWT |
 | POST | `/login` | No | Inicia sesión, devuelve JWT |
 | GET | `/me` | Sí | Devuelve el usuario autenticado |
+| PUT | `/me` | Sí | Actualiza el nombre del usuario autenticado |
+| PUT | `/password` | Sí | Cambia la contraseña (requiere `currentPassword` y `newPassword`) |
 
 ### Tasks (`/api/tasks`) — todas requieren `Authorization: Bearer <token>`
 | Método | Ruta | Descripción |
@@ -59,6 +61,8 @@ cuentas ya existentes en la base de datos:
 | `/login` | Inicio de sesión |
 | `/register` | Registro de usuario |
 | `/` | Dashboard: contadores y gráfica de distribución por estado, filtros por estado/prioridad, listado de tareas, crear/editar tareas en un modal |
+| `/calendar` | Vista mensual de tareas por fecha límite; click en un día abre sus tareas para editarlas |
+| `/profile` | Editar nombre y cambiar contraseña |
 
 ## Postman
 
