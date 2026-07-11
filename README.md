@@ -18,6 +18,14 @@ MongoDB y autenticación JWT, y frontend en React con Vite y Tailwind CSS.
 4. `npm start` (o `npm run dev` para reinicio automático al guardar cambios)
 5. La API queda disponible en `http://localhost:5000/api`
 
+### Datos de ejemplo (seed)
+
+`npm run seed` crea (o recrea) un usuario de demostración con tareas de ejemplo, sin tocar otras
+cuentas ya existentes en la base de datos:
+
+- Usuario: `demo@gestortareas.com` / `demo123456`
+- 8 tareas de ejemplo repartidas entre los tres estados y las tres prioridades
+
 ## Endpoints
 
 ### Auth (`/api/auth`)
