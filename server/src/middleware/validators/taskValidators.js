@@ -2,6 +2,10 @@ const { body } = require('express-validator');
 
 const taskValidation = [
   body('title').trim().notEmpty().withMessage('Title is required'),
+  body('description')
+    .optional()
+    .isLength({ max: 200 })
+    .withMessage('Description must be at most 200 characters'),
   body('status')
     .optional()
     .isIn(['pendiente', 'en_progreso', 'completada'])
