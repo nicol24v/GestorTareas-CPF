@@ -14,3 +14,13 @@ export async function fetchMe() {
   const { data } = await apiClient.get('/auth/me');
   return data;
 }
+
+export async function updateProfile({ name }) {
+  const { data } = await apiClient.put('/auth/me', { name });
+  return data;
+}
+
+export async function changePassword({ currentPassword, newPassword }) {
+  const { data } = await apiClient.put('/auth/password', { currentPassword, newPassword });
+  return data;
+}
