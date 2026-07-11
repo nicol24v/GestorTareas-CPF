@@ -16,9 +16,10 @@ function toFormState(task) {
   };
 }
 
-function validate({ title }) {
+function validate({ title, description }) {
   const errors = {};
   if (!title.trim()) errors.title = 'El título es requerido';
+  if (description.length > 200) errors.description = 'La descripción no puede superar los 200 caracteres';
   return errors;
 }
 
@@ -69,10 +70,21 @@ function TaskFormModal({ open, onClose, onSubmit, initialTask }) {
           <textarea
             id="description"
             rows={3}
+            maxLength={200}
             value={form.description}
             onChange={(e) => setForm({ ...form, description: e.target.value })}
-            className="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`resize-none rounded-lg border px-3 py-2 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.description ? 'border-rose-400' : 'border-slate-200'
+            }`}
           />
+          <div className="flex items-center justify-between">
+            {errors.description ? (
+              <span className="text-xs text-rose-600">{errors.description}</span>
+            ) : (
+              <span />
+            )}
+            <span className="text-xs text-slate-400">{form.description.length}/200</span>
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-1">

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const taskSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true },
-    description: { type: String, trim: true, default: '' },
+    description: { type: String, trim: true, default: '', maxlength: 200 },
     status: {
       type: String,
       enum: ['pendiente', 'en_progreso', 'completada'],
