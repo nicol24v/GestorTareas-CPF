@@ -6,13 +6,32 @@ import { useTasks } from '../hooks/useTasks';
 import TaskCard from '../components/TaskCard';
 import TaskFormModal from '../components/TaskFormModal';
 import Button from '../components/Button';
+import StatCard from '../components/StatCard';
+import StatusBarChart from '../components/StatusBarChart';
 
 function DashboardPage() {
   const { user, logout } = useAuth();
-  const { tasks, loading, error, filters, setFilters, createTask, updateTask, deleteTask, refetch } =
-    useTasks();
+  const {
+    tasks,
+    allTasks,
+    loading,
+    error,
+    filters,
+    setFilters,
+    createTask,
+    updateTask,
+    deleteTask,
+    refetch,
+  } = useTasks();
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
+
+  const stats = {
+    total: allTasks.length,
+    pendiente: allTasks.filter((t) => t.status === 'pendiente').length,
+    en_progreso: allTasks.filter((t) => t.status === 'en_progreso').length,
+    completada: allTasks.filter((t) => t.status === 'completada').length,
+  };
 
   function openCreateModal() {
     setEditingTask(null);
@@ -96,6 +115,17 @@ function DashboardPage() {
         </header>
 
         <main className="flex-1 p-6">
+          <div className="mb-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <StatCard label="Total" value={stats.total} />
+            <StatCard label="Pendientes" value={stats.pendiente} />
+            <StatCard label="En progreso" value={stats.en_progreso} color="blue" />
+            <StatCard label="Completadas" value={stats.completada} color="emerald" />
+          </div>
+
+          <div className="mb-6">
+            <StatusBarChart tasks={allTasks} />
+          </div>
+
           <div className="mb-4 flex items-center justify-between">
             <h1 className="text-xl font-semibold text-slate-900">Mis tareas</h1>
             <Button onClick={openCreateModal} className="flex items-center gap-1">
