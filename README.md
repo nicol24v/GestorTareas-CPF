@@ -1,12 +1,12 @@
 # Gestor de Tareas
 
 Sistema web de gestión de tareas — proyecto académico. Backend REST API con Node.js, Express,
-MongoDB y autenticación JWT. (El frontend en React se documentará por separado cuando se implemente.)
+MongoDB y autenticación JWT, y frontend en React con Vite y Tailwind CSS.
 
 ## Estructura
 
 - `server/` — API REST (Express + MongoDB + JWT)
-- `client/` — Frontend React (próxima fase)
+- `client/` — Frontend React (Vite + Tailwind)
 - `docs/superpowers/specs/` — documentos de diseño
 - `docs/superpowers/plans/` — planes de implementación
 
@@ -35,6 +35,22 @@ MongoDB y autenticación JWT. (El frontend en React se documentará por separado
 | GET | `/:id` | Obtiene una tarea propia |
 | PUT | `/:id` | Actualiza una tarea propia |
 | DELETE | `/:id` | Elimina una tarea propia |
+
+## Frontend — cómo correrlo
+
+1. `cd client`
+2. `npm install`
+3. Copiar `.env.example` a `.env` (por defecto ya apunta a `http://localhost:5000/api`).
+4. `npm run dev`
+5. Abrir `http://localhost:5173` (requiere que el backend también esté corriendo)
+
+### Páginas
+
+| Ruta | Descripción |
+|---|---|
+| `/login` | Inicio de sesión |
+| `/register` | Registro de usuario |
+| `/` | Dashboard: contadores y gráfica de distribución por estado, filtros por estado/prioridad, listado de tareas, crear/editar tareas en un modal |
 
 ## Postman
 
