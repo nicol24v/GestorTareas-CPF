@@ -12,18 +12,27 @@ const userSchema = new mongoose.Schema(
       trim: true,
       match: [/^\S+@\S+\.\S+$/, 'Invalid email format'],
     },
-    password: { type: String, required: true, minlength: 6, select: false },
+    googleId: { type: String, unique: true, sparse: true },
+    password: {
+      type: String,
+      required: function requiredUnlessGoogle() {
+        return !this.googleId;
+      },
+      minlength: 6,
+      select: false,
+    },
   },
   { timestamps: true }
 );
 
 userSchema.pre('save', async function hashPassword(next) {
-  if (!this.isModified('password')) return next();
+  if (!this.isModified('password') || !this.password) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
 userSchema.methods.comparePassword = function comparePassword(candidate) {
+  if (!this.password) return Promise.resolve(false);
   return bcrypt.compare(candidate, this.password);
 };
 

@@ -12,6 +12,10 @@ function validate({ email, password }) {
   return errors;
 }
 
+function redirectToGoogleLogin() {
+  window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
+}
+
 function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -62,6 +66,16 @@ function LoginPage() {
             {submitting ? 'Ingresando...' : 'Ingresar'}
           </Button>
         </form>
+
+        <div className="my-4 flex items-center gap-3">
+          <div className="h-px flex-1 bg-slate-200" />
+          <span className="text-xs text-slate-400">O</span>
+          <div className="h-px flex-1 bg-slate-200" />
+        </div>
+        <Button type="button" variant="outline" className="w-full" onClick={redirectToGoogleLogin}>
+          Continuar con Google
+        </Button>
+
         <p className="mt-4 text-center text-sm text-slate-500">
           ¿No tienes cuenta?{' '}
           <Link to="/register" className="font-medium text-blue-600 hover:underline">
