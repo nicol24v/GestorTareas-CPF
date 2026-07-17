@@ -63,6 +63,12 @@ export function AuthProvider({ children }) {
     persistSession(data);
   }
 
+  async function loginWithToken(newToken) {
+    setAuthToken(newToken);
+    const { user: me } = await fetchMe();
+    persistSession({ token: newToken, user: me });
+  }
+
   async function updateProfile(name) {
     const { user: updatedUser } = await updateProfileApi({ name });
     setUser(updatedUser);
@@ -75,7 +81,16 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, initializing, login, register, logout, updateProfile }}
+      value={{
+        user,
+        token,
+        initializing,
+        login,
+        register,
+        loginWithToken,
+        logout,
+        updateProfile,
+      }}
     >
       {children}
     </AuthContext.Provider>

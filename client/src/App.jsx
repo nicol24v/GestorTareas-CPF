@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import CalendarPage from './pages/CalendarPage';
 import ProfilePage from './pages/ProfilePage';
+import OAuthSuccessPage from './pages/OAuthSuccessPage';
 
 function PublicOnlyRoute({ children }) {
   const { user, initializing } = useAuth();
@@ -34,6 +35,7 @@ function App() {
           </PublicOnlyRoute>
         }
       />
+      <Route path="/oauth-success" element={<OAuthSuccessPage />} />
       <Route
         element={
           <ProtectedRoute>
