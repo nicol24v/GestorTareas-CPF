@@ -90,3 +90,31 @@ Importar `server/postman/GestorTareas.postman_collection.json` en Postman. Ejecu
 - El logout es solo del lado del cliente: se descarta el token guardado, no hay endpoint de
   servidor para esto.
 - El token JWT expira a las 24 horas.
+
+## Despliegue
+
+### Backend en Render
+
+1. Dashboard de Render → "New +" → "Web Service" → conectar el repo de GitHub.
+2. **Root Directory:** `server`
+3. **Build Command:** `npm install`
+4. **Start Command:** `npm start`
+5. Environment Variables: `MONGO_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `CLIENT_ORIGIN` (se completa
+   en el paso 3 de abajo, después de desplegar el frontend), `GOOGLE_CLIENT_ID`,
+   `GOOGLE_CLIENT_SECRET`, `GOOGLE_CALLBACK_URL` (`https://<tu-servicio>.onrender.com/api/auth/google/callback`).
+   `PORT` no se configura — Render la inyecta automáticamente.
+
+### Frontend en Vercel
+
+1. Dashboard de Vercel → "Add New" → "Project" → importar el mismo repo de GitHub.
+2. **Root Directory:** `client` (Vercel autodetecta Vite: build `npm run build`, output `dist`).
+3. Environment Variable: `VITE_API_URL` = URL pública del backend en Render + `/api`
+   (ej. `https://gestor-tareas-api.onrender.com/api`).
+
+### Pasos finales (después de tener ambas URLs públicas)
+
+1. En Render, actualizar `CLIENT_ORIGIN` con la URL final de Vercel (ej.
+   `https://gestor-tareas.vercel.app`) — necesario para que el CORS del backend acepte al
+   frontend desplegado.
+2. En Google Cloud Console → Credentials → tu OAuth Client ID, agregar a "Authorized redirect
+   URIs" la URL de producción: `https://<tu-servicio>.onrender.com/api/auth/google/callback`.
