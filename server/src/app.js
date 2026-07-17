@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const passport = require('passport');
+require('./config/passport');
 const AppError = require('./utils/AppError');
 const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/authRoutes');
@@ -12,7 +14,7 @@ const LOCALHOST_ORIGIN = /^http:\/\/localhost:\d+$/;
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || LOCALHOST_ORIGIN.test(origin)) {
+      if (!origin || LOCALHOST_ORIGIN.test(origin) || origin === process.env.CLIENT_ORIGIN) {
         return callback(null, true);
       }
       return callback(new Error('Not allowed by CORS'));
@@ -20,6 +22,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(passport.initialize());
 
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'API is running' });

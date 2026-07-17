@@ -81,4 +81,9 @@ async function changePassword(req, res, next) {
   }
 }
 
-module.exports = { register, login, me, updateProfile, changePassword };
+function googleCallback(req, res) {
+  const token = signToken(req.user._id);
+  res.redirect(`${process.env.CLIENT_ORIGIN}/oauth-success?token=${token}`);
+}
+
+module.exports = { register, login, me, updateProfile, changePassword, googleCallback };

@@ -1,10 +1,12 @@
 const express = require('express');
+const passport = require('passport');
 const {
   register,
   login,
   me,
   updateProfile,
   changePassword,
+  googleCallback,
 } = require('../controllers/authController');
 const {
   registerValidation,
@@ -22,5 +24,15 @@ router.post('/login', loginValidation, handleValidation, login);
 router.get('/me', auth, me);
 router.put('/me', auth, updateProfileValidation, handleValidation, updateProfile);
 router.put('/password', auth, changePasswordValidation, handleValidation, changePassword);
+
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'], session: false })
+);
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
+  googleCallback
+);
 
 module.exports = router;
