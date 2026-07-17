@@ -26,6 +26,18 @@ cuentas ya existentes en la base de datos:
 - Usuario: `demo@gestortareas.com` / `demo123456`
 - 8 tareas de ejemplo repartidas entre los tres estados y las tres prioridades
 
+### Login con Google (OAuth)
+
+1. En [Google Cloud Console](https://console.cloud.google.com/), crear un proyecto y configurar
+   la pantalla de consentimiento OAuth (External, modo Testing alcanza — agregar tu cuenta de
+   Gmail como "Test user").
+2. Crear una credencial OAuth Client ID de tipo "Web application", agregando como
+   "Authorized redirect URI": `http://localhost:5000/api/auth/google/callback` (y la URL de
+   producción una vez desplegado, ver sección de Despliegue).
+3. Completar en `server/.env`: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_CALLBACK_URL`.
+4. Si el email de la cuenta de Google coincide con una cuenta ya registrada por password, se
+   vincula automáticamente (no se crea una cuenta duplicada).
+
 ## Endpoints
 
 ### Auth (`/api/auth`)
@@ -36,6 +48,8 @@ cuentas ya existentes en la base de datos:
 | GET | `/me` | Sí | Devuelve el usuario autenticado |
 | PUT | `/me` | Sí | Actualiza el nombre del usuario autenticado |
 | PUT | `/password` | Sí | Cambia la contraseña (requiere `currentPassword` y `newPassword`) |
+| GET | `/google` | No | Inicia el login con Google (redirige a Google) |
+| GET | `/google/callback` | No | Callback de Google; genera JWT y redirige al frontend a `/oauth-success?token=...` |
 
 ### Tasks (`/api/tasks`) — todas requieren `Authorization: Bearer <token>`
 | Método | Ruta | Descripción |
@@ -63,6 +77,7 @@ cuentas ya existentes en la base de datos:
 | `/` | Dashboard: contadores y gráfica de distribución por estado, filtros por estado/prioridad, listado de tareas, crear/editar tareas en un modal |
 | `/calendar` | Vista mensual de tareas por fecha límite; click en un día abre sus tareas para editarlas |
 | `/profile` | Editar nombre y cambiar contraseña |
+| `/oauth-success` | Recibe el token tras el login con Google y termina de iniciar sesión (no se navega manualmente) |
 
 ## Postman
 
